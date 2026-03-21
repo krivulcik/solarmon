@@ -19,6 +19,7 @@ services:
     image: grafana/grafana:latest
     container_name: solarmon-grafana
     restart: unless-stopped
+    user: "0"
     ports:
       - "3000:3000"
     volumes:
