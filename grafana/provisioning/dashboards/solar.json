@@ -156,37 +156,6 @@
       ]
     },
     {
-      "id": 6,
-      "title": "Mode",
-      "type": "stat",
-      "gridPos": { "h": 4, "w": 4, "x": 20, "y": 0 },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [{ "color": "blue", "value": null }]
-          },
-          "mappings": [
-            { "type": "value", "options": { "P": { "text": "Power On", "color": "green" } } },
-            { "type": "value", "options": { "S": { "text": "Standby", "color": "yellow" } } },
-            { "type": "value", "options": { "L": { "text": "Line", "color": "blue" } } },
-            { "type": "value", "options": { "B": { "text": "Battery", "color": "orange" } } },
-            { "type": "value", "options": { "F": { "text": "Fault", "color": "red" } } }
-          ]
-        },
-        "overrides": []
-      },
-      "options": { "reduceOptions": { "calcs": ["lastNotNull"] }, "colorMode": "background", "graphMode": "none", "textMode": "auto" },
-      "targets": [
-        {
-          "refId": "A",
-          "datasource": { "type": "influxdb", "uid": "" },
-          "query": "from(bucket: \"solar\")\n  |> range(start: -5m)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"easun_3kw\")\n  |> filter(fn: (r) => r[\"_field\"] == \"mode\")\n  |> last()"
-        }
-      ]
-    },
-    {
       "id": 10,
       "title": "Power Overview",
       "type": "timeseries",
@@ -215,15 +184,6 @@
               { "id": "displayName", "value": "Load" },
               { "id": "color", "value": { "fixedColor": "orange", "mode": "fixed" } }
             ]
-          },
-          {
-            "matcher": { "id": "byName", "options": "ac_output_apparent_power" },
-            "properties": [
-              { "id": "displayName", "value": "Apparent Power" },
-              { "id": "color", "value": { "fixedColor": "semi-dark-orange", "mode": "fixed" } },
-              { "id": "custom.lineStyle", "value": { "dash": [10, 10], "fill": "dash" } },
-              { "id": "custom.fillOpacity", "value": 0 }
-            ]
           }
         ]
       },
@@ -232,7 +192,7 @@
         {
           "refId": "A",
           "datasource": { "type": "influxdb", "uid": "" },
-          "query": "from(bucket: \"solar\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"easun_3kw\")\n  |> filter(fn: (r) => r[\"_field\"] == \"pv_input_power\" or r[\"_field\"] == \"ac_output_active_power\" or r[\"_field\"] == \"ac_output_apparent_power\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
+          "query": "from(bucket: \"solar\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"easun_3kw\")\n  |> filter(fn: (r) => r[\"_field\"] == \"pv_input_power\" or r[\"_field\"] == \"ac_output_active_power\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
         }
       ]
     },
@@ -316,7 +276,7 @@
         {
           "refId": "A",
           "datasource": { "type": "influxdb", "uid": "" },
-          "query": "from(bucket: \"solar\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"easun_3kw\")\n  |> filter(fn: (r) => r[\"_field\"] == \"battery_charging_current\" or r[\"_field\"] == \"battery_discharge_current\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
+          "query": "from(bucket: \"solar\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"easun_3kw\")\n  |> filter(fn: (r) => r[\"_field\"] == \"battery_charging_current\" or r[\"_field\"] == \"battery_discharge_current\")\n  |> map(fn: (r) => ({ r with _value: if r._field == \"battery_discharge_current\" then -1.0 * r._value else r._value }))\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
         }
       ]
     },
@@ -466,15 +426,6 @@
               { "id": "displayName", "value": "Output Voltage" },
               { "id": "color", "value": { "fixedColor": "purple", "mode": "fixed" } }
             ]
-          },
-          {
-            "matcher": { "id": "byName", "options": "ac_output_load" },
-            "properties": [
-              { "id": "displayName", "value": "Load %" },
-              { "id": "unit", "value": "percent" },
-              { "id": "color", "value": { "fixedColor": "orange", "mode": "fixed" } },
-              { "id": "custom.axisPlacement", "value": "right" }
-            ]
           }
         ]
       },
@@ -483,7 +434,7 @@
         {
           "refId": "A",
           "datasource": { "type": "influxdb", "uid": "" },
-          "query": "from(bucket: \"solar\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"easun_3kw\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ac_input_voltage\" or r[\"_field\"] == \"ac_output_voltage\" or r[\"_field\"] == \"ac_output_load\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
+          "query": "from(bucket: \"solar\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"easun_3kw\")\n  |> filter(fn: (r) => r[\"_field\"] == \"ac_input_voltage\" or r[\"_field\"] == \"ac_output_voltage\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")"
         }
       ]
     },

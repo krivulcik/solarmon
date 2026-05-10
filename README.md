@@ -117,14 +117,13 @@ The provisioned Grafana dashboard includes:
 - **Battery** — state of charge gauge (%)
 - **Battery Voltage** — current voltage (V)
 - **Inverter Temperature** — heat sink temperature (°C)
-- **Mode** — operating mode (Line / Battery / Standby / Fault)
-- **Power Overview** — PV vs load vs apparent power over time
+- **Power Overview** — PV vs load over time
 - **Battery Voltage** — voltage trend with SCC reading
-- **Battery Current** — charge/discharge current over time
+- **Battery Current** — charging (positive) vs discharging (negative) over time
 - **Battery Capacity** — SOC trend with color gradient
 - **Inverter Temperature** — temperature trend
 - **PV Input** — voltage and current (dual Y-axis)
-- **AC Input / Output** — grid voltage, output voltage, load %
+- **AC Input / Output** — grid voltage and output voltage
 - **Daily PV Energy** — estimated daily energy production (Wh)
 
 Dashboards are provisioned from `grafana/provisioning/` and can be edited in the Grafana UI.
