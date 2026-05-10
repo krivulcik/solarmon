@@ -237,7 +237,8 @@
             "properties": [
               { "id": "displayName", "value": "Battery Voltage (SCC)" },
               { "id": "color", "value": { "fixedColor": "dark-green", "mode": "fixed" } },
-              { "id": "custom.lineStyle", "value": { "dash": [10, 10], "fill": "dash" } }
+              { "id": "custom.lineStyle", "value": { "dash": [10, 10], "fill": "dash" } },
+              { "id": "custom.hideFrom", "value": { "tooltip": false, "viz": true, "legend": false } }
             ]
           }
         ]
