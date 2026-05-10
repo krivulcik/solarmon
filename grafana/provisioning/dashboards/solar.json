@@ -209,7 +209,19 @@
             "lineWidth": 2,
             "fillOpacity": 10,
             "spanNulls": false,
-            "showPoints": "never"
+            "showPoints": "never",
+            "axisSoftMin": 24,
+            "axisSoftMax": 28,
+            "thresholdsStyle": { "mode": "line" }
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "transparent", "value": null },
+              { "color": "orange", "value": 24.6 },
+              { "color": "green", "value": 26.2 },
+              { "color": "green", "value": 27.2 }
+            ]
           }
         },
         "overrides": [
